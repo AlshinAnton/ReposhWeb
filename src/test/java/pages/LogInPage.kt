@@ -23,7 +23,7 @@ class LogInPage : DriverSettings() {
     val thirdRegistrationScreen = "auth-step-three"
     val mailInputID = "auth-create-email"
     val errorMailID = "auth-create-email-error"
-    val userNameInputID = "auth-create-username"
+    val nickNameInputID = "auth-create-username"
     val errorUserNameID = "auth-create-username-error"
     val nameInputID = "auth-create-first_name"
     val errorNameID = "auth-create-first_name-error"
@@ -34,6 +34,20 @@ class LogInPage : DriverSettings() {
     val correctCode = "7642"
     val incorrectCode = "1234"
     val errorCodeText = "Неправильный код. Осталось 4 попытки"
+
+    val errorMailText = "Значение «Email» не является правильным email адресом."
+    val errLoginText = "Необходимо заполнить «Логин»."
+
+    val errNameStartFromNumberText = "Поле Имя должно начинаться с буквы"
+    val errNameWithNumbersText =  "В Имя допустимы только буквы и дефис"
+    val errNameWith2SimbolsText = "минимум три буквы"
+
+    val inviteCodeText = "G42GD"
+    val errShortInviteCodeText = "Значение «Invite Code» должно содержать 5 символов."
+
+    val correctMailText = "qqq@qqq.qqq"
+    val correctNickName = "tester123"
+    val correctName = "АбраКадабра"
 
     fun waitFirstLoginScreen() {
         val element = getDriver().findElement(By.ById(firstLoginScreenID)).isDisplayed
@@ -67,20 +81,70 @@ class LogInPage : DriverSettings() {
     }
 
     fun enterIncorrectCode() {
-        getDriver().findElement(By.ById.id(codeInputID)).sendKeys(incorrectCode)
+        getDriver().findElement(By.ById(codeInputID)).sendKeys(incorrectCode)
     }
 
     fun assertCodeError() {
-        val element = getDriver().findElement(By.ById.id(errorCodeID)).text
+        val element = getDriver().findElement(By.ById(errorCodeID)).text
         Assert.assertEquals(element, errorCodeText)
     }
 
     fun clickConfirmCode() {
-        getDriver().findElement(By.ById.id(confirmCodeBtnID)).click()
+        getDriver().findElement(By.ById(confirmCodeBtnID)).click()
     }
 
+    fun moveToSecondScreen() {
+        MainPage().clickLoginBtn()
+        waitFirstLoginScreen()
+        enterPhoneNumber()
+        clickReceiveCodeBtn()
+        waitSecondLoginScreen()
+    }
 
+    fun login() {
+        moveToSecondScreen()
+        enterCode()
+        clickConfirmCode()
+    }
 
+    fun enterMail() {
+        getDriver().findElement(By.ById(mailInputID)).sendKeys(correctMailText)
+    }
+    fun assertWrongMailError() {
+        val element = getDriver().findElement(By.ById(errorMailID)).text
+        Assert.assertEquals(element, errorMailText)
+    }
 
+    fun enterNickName() {
+        getDriver().findElement(By.ById(nickNameInputID)).sendKeys(correctNickName)
+    }
+    fun assertEmptyNickNameError() {
+        val element = getDriver().findElement(By.ById(errorUserNameID)).text
+        Assert.assertEquals(element, errLoginText)
+    }
+
+    fun enterName() {
+        getDriver().findElement(By.ById(nameInputID)).sendKeys(correctName)
+    }
+    fun assertNameErrStartWithNumber() {
+        val element = getDriver().findElement(By.ById(errorNameID)).text
+        Assert.assertEquals(element, errNameStartFromNumberText)
+    }
+    fun assertNameWithNumbers() {
+        val element = getDriver().findElement(By.ById(errorNameID)).text
+        Assert.assertEquals(element, errNameWithNumbersText)
+    }
+    fun assertShortName() {
+        val element = getDriver().findElement(By.ById(errorNameID)).text
+        Assert.assertEquals(element, errNameWith2SimbolsText)
+    }
+
+    fun enterInviteCode() {
+        getDriver().findElement(By.ById(invateCodeInputID)).sendKeys(inviteCodeText)
+    }
+    fun assertShortInviteCode() {
+        val element = getDriver().findElement(By.ById(invateCodeInputID)).text
+
+    }
 
 }

@@ -1,7 +1,6 @@
 package tests
 
 import core.DriverSettings
-import org.testng.Assert
 import org.testng.annotations.Test
 import pages.LogInPage
 import pages.MainPage
@@ -11,24 +10,21 @@ class LoginTests : DriverSettings()  {
 
     @Test
     fun loginTest() {
-        MainPage().clickLoginBtn()
-        LogInPage().waitFirstLoginScreen()
-        LogInPage().enterPhoneNumber()
-        LogInPage().clickReceiveCodeBtn()
-        LogInPage().waitSecondLoginScreen()
-        LogInPage().enterCode()
-        LogInPage().clickConfirmCode()
+        LogInPage().login()
         MainPage().assertNickName()
     }
 
     @Test
     fun checkCodeError() {
-        MainPage().clickLoginBtn()
-        LogInPage().waitFirstLoginScreen()
-        LogInPage().enterPhoneNumber()
-        LogInPage().clickReceiveCodeBtn()
-        LogInPage().waitSecondLoginScreen()
+        LogInPage().moveToSecondScreen()
         LogInPage().enterIncorrectCode()
         LogInPage().assertCodeError()
+    }
+
+    @Test(enabled = false)
+    fun registrationTest() {
+        LogInPage().login()
+        LogInPage().waitThirdRegistrationScreen()
+
     }
 }
