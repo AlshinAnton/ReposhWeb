@@ -11,7 +11,6 @@ class LoginTests : DriverSettings()  {
 
     @Test
     fun loginTest() {
-
         MainPage().clickLoginBtn()
         LogInPage().waitFirstLoginScreen()
         LogInPage().enterPhoneNumber()
@@ -20,6 +19,16 @@ class LoginTests : DriverSettings()  {
         LogInPage().enterCode()
         LogInPage().clickConfirmCode()
         MainPage().assertNickName()
+    }
 
+    @Test
+    fun checkCodeError() {
+        MainPage().clickLoginBtn()
+        LogInPage().waitFirstLoginScreen()
+        LogInPage().enterPhoneNumber()
+        LogInPage().clickReceiveCodeBtn()
+        LogInPage().waitSecondLoginScreen()
+        LogInPage().enterIncorrectCode()
+        LogInPage().assertCodeError()
     }
 }
