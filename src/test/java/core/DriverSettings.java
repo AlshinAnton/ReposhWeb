@@ -39,6 +39,8 @@ public class DriverSettings {
             //WebDriverManager.chromedriver().setup();
             driver = new ChromeDriver();
             driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
+            System.setProperty("webdriver.chrome", "/usr/local/bin/chromedriver");
+            DriverSettings.driver.get("https://new.test.reposh.com/brands");
         }
     }
 
