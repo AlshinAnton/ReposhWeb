@@ -4,17 +4,16 @@ import com.codeborne.selenide.Configuration;
 import com.codeborne.selenide.Selenide;
 import com.codeborne.selenide.SelenideElement;
 import com.codeborne.selenide.junit.ScreenShooter;
+import core.BaseTest;
 import org.junit.*;
 
 import java.io.IOException;
 
 import static com.codeborne.selenide.FileDownloadMode.PROXY;
 import static com.codeborne.selenide.Selenide.*;
-import static com.codeborne.selenide.Condition.*;
 
 
-
-public class TrySelenide {
+public class TrySelenide extends BaseTest {
 
     private String logInID = "auth-header-open-modal-button";
     private String logOutID = "auth-header-logout-button";
@@ -79,14 +78,14 @@ public class TrySelenide {
         open("/faq");
 
         isDisplayed(logInID);
-        clickByElement(logInID);
+        clickBy(logInID);
         isDisplayed(firstLoginScreenID);
         isDisplayed(phoneNumberInputID);
         sendKeys(phoneNumberInputID, phoneNumber1);
-        clickByElement(receiveCodeBtnID);
+        clickBy(receiveCodeBtnID);
         System.out.println("Нормальный клик прошел");
         /*isDisplayed(receiveCodeBtnID);
-        clickByElement(receiveCodeBtnID);*/
+        clickBy(receiveCodeBtnID);*/
 
         sleep(3000);
 
@@ -124,58 +123,4 @@ public class TrySelenide {
         File screenshot = Screenshots.getLastScreenshot();
         return screenshot == null ? null : Files.toByteArray(screenshot);
     }*/
-
-
-    private void clickByElement(String id) {
-        $("#" + id).shouldBe(enabled).click();
-    }
-
-    private boolean isDisplayed(String id) {
-
-        if ($("#" + id).isDisplayed()) {
-
-        } else {
-            System.out.println("elementNotDisplayed");
-        }
-        return true;
-    }
-
-    private void sendKeys(String id, String text) {
-        $("#" + id).setValue(text);
-    }
-
-    //ждем пока элемент исчезнет
-    private void waitUntillDisappears(String id) {
-        $("#"+id).should(disappear);
-    }
-
-    //ждем, когда элемент получит текст
-    private void waitWnenElementGetText(String id, String text) {
-        $("#"+id).shouldHave(text(text));
-    }
-
-    private void findByText(String text) {
-
-    }
-
-
-    private void clickWithTimeOut() {
-        int timeout=0;
-        while(timeout<30)
-        {
-            try
-            {
-                $("#auth-to-step-two-button").shouldBe(enabled).click();
-                timeout=30;
-
-            }catch(Exception e){
-
-                $("#auth-to-step-two-button").shouldBe(enabled).click();
-
-                timeout=timeout+2;
-            }
-        }
-    }
-
-
 }
