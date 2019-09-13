@@ -24,13 +24,16 @@ public class DriverSettings {
         // Uses chrome driver by default
         String browser = System.getenv("BROWSER");
         if (browser == null) {
-            browser = DEFAULT;
+            browser = FIREFOX;
         }
 
         if (browser.toLowerCase().equals(FIREFOX)) {
             //WebDriverManager.firefoxdriver().setup();
             driver = new FirefoxDriver();
             driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
+            System.setProperty("webdriver.gecko", "/usr/local/bin/geckodriver");
+            DriverSettings.driver.get("https://new.test.reposh.com/brands");
+            driver.manage().window().maximize();
         } else if (browser.toLowerCase().equals(IE)) {
             //WebDriverManager.iedriver().setup();
             driver = new InternetExplorerDriver();
@@ -41,6 +44,7 @@ public class DriverSettings {
             driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
             System.setProperty("webdriver.chrome", "/usr/local/bin/chromedriver");
             DriverSettings.driver.get("https://new.test.reposh.com/brands");
+            driver.manage().window().maximize();
         }
     }
 

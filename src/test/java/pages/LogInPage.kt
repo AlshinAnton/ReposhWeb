@@ -2,9 +2,15 @@ package pages
 
 import core.DriverSettings
 import org.openqa.selenium.By
+import org.openqa.selenium.JavascriptExecutor
+import org.openqa.selenium.WebDriver
+import org.openqa.selenium.WebElement
+import org.openqa.selenium.interactions.Action
 import org.testng.Assert
 import org.openqa.selenium.support.ui.ExpectedConditions
 import org.openqa.selenium.support.ui.WebDriverWait
+import org.openqa.selenium.interactions.Actions
+
 
 
 
@@ -67,12 +73,29 @@ class LogInPage : DriverSettings() {
     }
 
     fun clickReceiveCodeBtn() {
-        Thread.sleep(2000)
-        val wait = WebDriverWait(getDriver(), 10)
-        val element = wait.until(ExpectedConditions.elementToBeClickable(By.ById(receiveCodeBtnID)))
-        element.click()
-        //WebDriverWait(DriverSettings.getDriver(), 20).until(ExpectedConditions.elementToBeClickable(By.ById(receiveCodeBtnID))).click()
-        //val element = getDriver().findElement(By.ById(receiveCodeBtnID)).click()
+        /*Thread.sleep(2000)
+        //1
+        getDriver().findElement(By.id(receiveCodeBtnID))
+        Thread.sleep(1000)
+        getDriver().findElement(By.id(receiveCodeBtnID)).click()*/
+
+        getDriver().findElement(By.linkText("Получить код")).click()
+
+        //2
+        /*val wait = WebDriverWait(getDriver(), 3)
+        val js = getDriver() as JavascriptExecutor
+        wait.until(ExpectedConditions.presenceOfElementLocated(By.id(receiveCodeBtnID)))
+        val element = getDriver().findElement(By.id(receiveCodeBtnID))*/
+
+        //3
+        /*val element = getDriver().findElement(By.id(receiveCodeBtnID))
+        val wait = WebDriverWait(DriverSettings.getDriver(), 3)
+        wait.until<WebElement>(ExpectedConditions.visibilityOf(element))
+        wait.until(ExpectedConditions.elementToBeClickable(element))
+        val action = Actions(DriverSettings.getDriver())
+        action.moveToElement(element)
+        val javascript = getDriver() as JavascriptExecutor
+        javascript.executeScript("var element = document.querySelector('id=auth-to-step-two-button'); element.value = 3;")*/
 
     }
 
@@ -144,7 +167,6 @@ class LogInPage : DriverSettings() {
     }
     fun assertShortInviteCode() {
         val element = getDriver().findElement(By.ById(invateCodeInputID)).text
-
     }
 
 }
